@@ -1,6 +1,7 @@
 package com.uci.dao.repository;
 
 import com.uci.dao.models.XMessageDAO;
+import org.springframework.data.cassandra.repository.AllowFiltering;
 import org.springframework.data.cassandra.repository.ReactiveCassandraRepository;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
@@ -16,6 +17,7 @@ public interface XMessageRepository extends ReactiveCassandraRepository<XMessage
 
     Flux<XMessageDAO> findFirstByAppOrderByTimestampDesc(String appName);
 
+    @AllowFiltering
     Flux<List<XMessageDAO>> findAllByUserId(String userID);
 
     Flux<XMessageDAO> findByMessageId(String messageID);
@@ -24,8 +26,10 @@ public interface XMessageRepository extends ReactiveCassandraRepository<XMessage
 
     Flux<XMessageDAO> findFirstByCauseIdAndMessageStateOrderByTimestampDesc(String causeId, String messageState);
 
+    @AllowFiltering
     Flux<List<XMessageDAO>> findAllByUserIdOrderByTimestampDesc(String userID);
 
+    @AllowFiltering
     Flux<List<XMessageDAO>> findAllByUserIdOrderByTimestamp(String userID);
 
     Flux<XMessageDAO> findTopByUserIdAndMessageStateOrderByTimestampDesc(String userId, String messageState);

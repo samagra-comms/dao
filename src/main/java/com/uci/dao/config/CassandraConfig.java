@@ -72,21 +72,20 @@ public class CassandraConfig extends AbstractReactiveCassandraConfiguration {
     protected List<String> getStartupScripts() {
 
 
-        return Collections.singletonList("CREATE TABLE IF NOT EXISTS " +
-                keyspace + ".XMessage(id bigint," +
-                "userId text, " +
-                "fromId text, " +
-                "channel text, " +
-                "provider text, " +
-                "timestamp timestamp, " +
-                "messageState text, " +
-                "xMessage text, " +
-                "app text, " +
-                "auxData text, " +
-                "messageId text, " +
-                "replyId text, " +
-                "causeId text, " +
-                "PRIMARY KEY (id) " +
-                ") WITH default_time_to_live = 600;");
+        return Collections.singletonList("CREATE TABLE IF NOT EXISTS "+keyspace+".XMessage(id bigint, \n" +
+                "                userId text, \n" +
+                "                fromId text, \n" +
+                "                channel text, \n" +
+                "                provider text, \n" +
+                "                timestamp timestamp, \n" +
+                "                messageState text, \n" +
+                "                xMessage text, \n" +
+                "                app text, \n" +
+                "                auxData text, \n" +
+                "                messageId text, \n" +
+                "                replyId text, \n" +
+                "                causeId text, \n" +
+                "                PRIMARY KEY (userId,timestamp))\n" +
+                "                WITH CLUSTERING ORDER BY(timestamp desc);");
     }
 }
