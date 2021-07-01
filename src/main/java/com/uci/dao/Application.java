@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -15,6 +16,7 @@ import java.util.UUID;
  * @author chakshu
  */
 @Slf4j
+@ConfigurationProperties("dao-application.properties")
 @SpringBootApplication(scanBasePackages = "com.uci.dao")
 public class Application implements CommandLineRunner {
 
