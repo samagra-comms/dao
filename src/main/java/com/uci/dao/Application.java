@@ -1,8 +1,7 @@
 package com.uci.dao;
 
-import com.uci.dao.models.Employee;
-import com.uci.dao.models.EmployeeKey;
-import com.uci.dao.repository.EmployeeRepository;
+import com.uci.dao.models.XMessageDAO;
+import com.uci.dao.repository.XMessageRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -13,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
- *  @author chakshu
+ * @author chakshu
  */
 @Slf4j
 @SpringBootApplication(scanBasePackages = "com.uci.dao")
@@ -22,7 +21,7 @@ public class Application implements CommandLineRunner {
     int counter = 0;
 
     @Autowired
-    private EmployeeRepository employeeRepository;
+    private XMessageRepository xMessageRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
@@ -32,12 +31,13 @@ public class Application implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         UUID id = UUID.randomUUID();
-        employeeRepository.insert(new Employee(EmployeeKey.builder().dateOfBirth(LocalDateTime.now()).id(UUID.randomUUID()).fullName("Joe Doe").build(), "Engineer 1", "IT", 200000)).log().subscribe();
-        employeeRepository.insert(new Employee(new EmployeeKey("Sally May", LocalDateTime.now(), id), "Senior Engineer 1", "IT", 300000)).subscribe(emp -> {
-            employeeRepository.findAll().subscribe(employee -> {
-                log.info("employeeList:" + counter +  "  " + employee);
+        xMessageRepository.insert(new XMessageDAO(new Long(121313), "HHBJ", "hkkh", "efef", "grdgrdg", LocalDateTime.now(),
+                "HHBJ", "hkkh", "efef", "grdgrdg", "HHBJ", "hkkh", "efef")).log().subscribe();
+        xMessageRepository.insert(new XMessageDAO(new Long(1213134), "HHBJ", "hkkh", "efef", "grdgrdg", LocalDateTime.now(),
+                "HHBJ", "hkkh", "efef", "grdgrdg", "HHBJ", "hkkh", "efef")).log().subscribe();
+            xMessageRepository.findAll().subscribe(xMessageDAO -> {
+                log.info("XMessage List Item :>> " + counter +  "  " + xMessageDAO);
                 counter += 1;
             });
-        });
     }
 }

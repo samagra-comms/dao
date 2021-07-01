@@ -45,7 +45,7 @@ public class CassandraConfig extends AbstractReactiveCassandraConfiguration {
 
     @Override
     public SchemaAction getSchemaAction() {
-        return SchemaAction.CREATE_IF_NOT_EXISTS;
+        return SchemaAction.RECREATE;
     }
 
     @Override
@@ -70,14 +70,23 @@ public class CassandraConfig extends AbstractReactiveCassandraConfiguration {
 
     @Override
     protected List<String> getStartupScripts() {
+
+
         return Collections.singletonList("CREATE TABLE IF NOT EXISTS " +
-                keyspace + ".employee(full_name text, " +
-                "date_of_birth timestamp, " +
-                "employee_id UUID, " +
-                "title text, " +
-                "department text, " +
-                "salary double, " +
-                "PRIMARY KEY ((full_name, date_of_birth), employee_id) " +
+                keyspace + ".XMessage(id bigint," +
+                "userId text, " +
+                "fromId text, " +
+                "channel text, " +
+                "provider text, " +
+                "timestamp timestamp, " +
+                "messageState text, " +
+                "xMessage text, " +
+                "app text, " +
+                "auxData text, " +
+                "messageId text, " +
+                "replyId text, " +
+                "causeId text, " +
+                "PRIMARY KEY (id) " +
                 ") WITH default_time_to_live = 600;");
     }
 }
