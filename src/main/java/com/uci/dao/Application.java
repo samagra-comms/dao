@@ -9,8 +9,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 /**
  * @author chakshu
@@ -32,13 +32,13 @@ public class Application implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        UUID id = UUID.randomUUID();
         xMessageRepository.insert(new XMessageDAO(new Long(121313), "HHBJ", "hkkh", "efef", "grdgrdg", LocalDateTime.now(),
                 "HHBJ", "hkkh", "efef", "grdgrdg", "HHBJ", "hkkh", "efef")).log().subscribe();
-        xMessageRepository.insert(new XMessageDAO(new Long(1213134), "HHBJ", "hkkh", "efef", "grdgrdg", LocalDateTime.now(),
+        xMessageRepository.insert(new XMessageDAO(new Long(1213134), "HHBJ24", "hkkh", "efef", "grdgrdg", LocalDateTime.now(),
                 "HHBJ", "hkkh", "efef", "grdgrdg", "HHBJ", "hkkh", "efef")).log().subscribe();
-            xMessageRepository.findAll().subscribe(xMessageDAO -> {
-                log.info("XMessage List Item :>> " + counter +  "  " + xMessageDAO);
+        LocalDateTime yesterday = LocalDateTime.now().minusDays(1L);
+            xMessageRepository.findAllByUserIdAndTimestampAfter("HHBJ", yesterday).subscribe(xMessageDAO -> {
+                log.info("XMessage List Item :>> " + counter +  "  " + xMessageDAO.getMessageId() + " " + xMessageDAO.getTimestamp());
                 counter += 1;
             });
     }

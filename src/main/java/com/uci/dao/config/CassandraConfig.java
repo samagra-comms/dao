@@ -1,6 +1,7 @@
 package com.uci.dao.config;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.cassandra.config.AbstractReactiveCassandraConfiguration;
 import org.springframework.data.cassandra.config.SchemaAction;
@@ -63,10 +64,10 @@ public class CassandraConfig extends AbstractReactiveCassandraConfiguration {
         return Collections.singletonList(specification);
     }
 
-    @Override
-    protected List<DropKeyspaceSpecification> getKeyspaceDrops() {
-        return Collections.singletonList(DropKeyspaceSpecification.dropKeyspace(keyspace));
-    }
+//    @Override
+//    protected List<DropKeyspaceSpecification> getKeyspaceDrops() {
+//        return Collections.singletonList(DropKeyspaceSpecification.dropKeyspace(keyspace));
+//    }
 
     @Override
     protected List<String> getStartupScripts() {
@@ -86,7 +87,7 @@ public class CassandraConfig extends AbstractReactiveCassandraConfiguration {
                 "messageId text, " +
                 "replyId text, " +
                 "causeId text, " +
-                "PRIMARY KEY (id) " +
-                ") WITH default_time_to_live = 600;");
+                "PRIMARY KEY ((userId), timestamp)) " +
+                "WITH CLUSTERING ORDER BY (timestamp DESC)");
     }
 }
