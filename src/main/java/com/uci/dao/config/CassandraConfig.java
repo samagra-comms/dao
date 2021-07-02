@@ -46,7 +46,7 @@ public class CassandraConfig extends AbstractReactiveCassandraConfiguration {
 
     @Override
     public SchemaAction getSchemaAction() {
-        return SchemaAction.RECREATE;
+        return SchemaAction.NONE;
     }
 
     @Override
@@ -57,7 +57,8 @@ public class CassandraConfig extends AbstractReactiveCassandraConfiguration {
     @Override
     protected List<CreateKeyspaceSpecification> getKeyspaceCreations() {
         final CreateKeyspaceSpecification specification =
-                CreateKeyspaceSpecification.createKeyspace(keyspace)
+                CreateKeyspaceSpecification
+                        .createKeyspace(keyspace)
                         .ifNotExists()
                         .with(KeyspaceOption.DURABLE_WRITES, true)
                         .withSimpleReplication();
