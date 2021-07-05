@@ -10,6 +10,7 @@ import org.springframework.data.cassandra.core.cql.keyspace.DropKeyspaceSpecific
 import org.springframework.data.cassandra.core.cql.keyspace.KeyspaceOption;
 import org.springframework.data.cassandra.repository.config.EnableReactiveCassandraRepositories;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -72,9 +73,8 @@ public class CassandraConfig extends AbstractReactiveCassandraConfiguration {
 
     @Override
     protected List<String> getStartupScripts() {
-
-
-        return Collections.singletonList("CREATE TABLE IF NOT EXISTS " +
+        List<String> scripts = new ArrayList<>();
+        scripts.add("CREATE TABLE IF NOT EXISTS " +
                 keyspace + ".XMessage(id bigint," +
                 "userId text, " +
                 "fromId text, " +
@@ -90,5 +90,9 @@ public class CassandraConfig extends AbstractReactiveCassandraConfiguration {
                 "causeId text, " +
                 "PRIMARY KEY ((userId), timestamp)) " +
                 "WITH CLUSTERING ORDER BY (timestamp DESC)");
+//        scripts.add("CREATE INDEX IF NOT EXISTS message_state_index\n" +
+//                "ON "+keyspace
+//                +".XMessage ( KEYS ( messageState ) ) ");
+        return scripts;
     }
 }

@@ -34,8 +34,6 @@ public interface XMessageRepository extends ReactiveCassandraRepository<XMessage
     @AllowFiltering
     Flux<XMessageDAO> findAllByUserIdAndTimestampAfter(String userID, LocalDateTime timestamp);
 
-    Flux<XMessageDAO> findTopByUserIdAndMessageStateOrderByTimestampDesc(String userId, String messageState);
-
     Flux<XMessageDAO> findTopByFromIdAndMessageStateOrderByTimestampDesc(String fromId, String messageState);
 
     Flux<XMessageDAO> findFirstByUserIdAndCauseIdAndMessageStateOrderByTimestampDesc(String userId, String causeId, String messageState);

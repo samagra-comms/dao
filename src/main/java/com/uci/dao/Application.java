@@ -8,6 +8,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
 import reactor.core.publisher.SignalType;
 
 import java.time.LocalDate;
@@ -17,6 +19,9 @@ import java.time.LocalDateTime;
  * @author chakshu
  */
 @Slf4j
+@PropertySources({
+        @PropertySource("classpath:dao-application.properties")
+})
 @SpringBootApplication(scanBasePackages = "com.uci.dao")
 public class Application implements CommandLineRunner {
 
@@ -34,10 +39,14 @@ public class Application implements CommandLineRunner {
 
         xMessageRepository.insert(new XMessageDAO(new Long(121313), "HHBJ", "hkkh", "efef", "grdgrdg", LocalDateTime.now(),
                 "HHBJ", "hkkh", "efef", "grdgrdg", "HHBJ", "hkkh", "efef")).log().subscribe();
-        xMessageRepository.insert(new XMessageDAO(new Long(1213134), "HHBJ24", "hkkh", "efef", "grdgrdg", LocalDateTime.now(),
+        xMessageRepository.insert(new XMessageDAO(new Long(1213134), "HHB", "hkkh", "efef", "grdgrdg", LocalDateTime.now(),
                 "HHBJ", "hkkh", "efef", "grdgrdg", "HHBJ", "hkkh", "efef")).log().subscribe();
         LocalDateTime yesterday = LocalDateTime.now().minusDays(1L);
         xMessageRepository.findAllByUserIdAndTimestampAfter("HHBJ", yesterday).subscribe(xMessageDAO -> {
+            log.info("XMessage List Item :>> " + counter + "  " + xMessageDAO.getMessageId() + " " + xMessageDAO.getTimestamp());
+            counter += 1;
+        });
+        xMessageRepository.findAllByUserIdAndTimestampAfter("HHBJ",yesterday).subscribe(xMessageDAO -> {
             log.info("XMessage List Item :>> " + counter + "  " + xMessageDAO.getMessageId() + " " + xMessageDAO.getTimestamp());
             counter += 1;
         });
