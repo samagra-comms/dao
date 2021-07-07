@@ -25,7 +25,7 @@ public class XMessageDAO {
 
     @PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED)
     private String userId;
-    @Column
+    @PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED)
     private String fromId;
     @Column
     private String channel;

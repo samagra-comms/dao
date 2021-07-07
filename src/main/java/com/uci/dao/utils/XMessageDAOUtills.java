@@ -55,4 +55,5 @@ public class XMessageDAOUtills {
         xmsgDao.setApp(xmsg.getApp());
         return xmsgDao;
     }
+
 }

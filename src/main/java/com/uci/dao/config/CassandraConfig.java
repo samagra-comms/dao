@@ -88,7 +88,7 @@ public class CassandraConfig extends AbstractReactiveCassandraConfiguration {
                 "messageId text, " +
                 "replyId text, " +
                 "causeId text, " +
-                "PRIMARY KEY ((userId), timestamp)) " +
+                "PRIMARY KEY ((userId,fromId), timestamp)) " +
                 "WITH CLUSTERING ORDER BY (timestamp DESC)");
 //        scripts.add("CREATE INDEX IF NOT EXISTS message_state_index\n" +
 //                "ON "+keyspace
