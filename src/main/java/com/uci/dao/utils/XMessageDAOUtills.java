@@ -2,7 +2,6 @@ package com.uci.dao.utils;
 
 
 import com.datastax.driver.core.utils.UUIDs;
-import com.fasterxml.uuid.Generators;
 import com.uci.dao.models.XMessageDAO;
 import messagerosa.core.model.XMessage;
 
