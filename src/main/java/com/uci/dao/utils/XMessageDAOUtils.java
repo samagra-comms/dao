@@ -10,7 +10,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.TimeZone;
 
-public class XMessageDAOUtills {
+public class XMessageDAOUtils {
 
     public static XMessageDAO convertXMessageToDAO(XMessage xmsg) {
         XMessageDAO xmsgDao = new XMessageDAO();
