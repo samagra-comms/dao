@@ -66,16 +66,13 @@ public class CassandraConfig extends AbstractReactiveCassandraConfiguration {
         return Collections.singletonList(specification);
     }
 
-//    @Override
-//    protected List<DropKeyspaceSpecification> getKeyspaceDrops() {
-//        return Collections.singletonList(DropKeyspaceSpecification.dropKeyspace(keyspace));
-//    }
+
 
     @Override
     protected List<String> getStartupScripts() {
         List<String> scripts = new ArrayList<>();
         scripts.add("CREATE TABLE IF NOT EXISTS " +
-                keyspace + ".XMessage(id bigint," +
+                keyspace + ".XMessage(id uuid," +
                 "userId text, " +
                 "fromId text, " +
                 "channel text, " +
@@ -88,7 +85,7 @@ public class CassandraConfig extends AbstractReactiveCassandraConfiguration {
                 "messageId text, " +
                 "replyId text, " +
                 "causeId text, " +
-                "PRIMARY KEY ((userId), timestamp)) " +
+                "PRIMARY KEY ((userId,fromId), timestamp)) " +
                 "WITH CLUSTERING ORDER BY (timestamp DESC)");
 //        scripts.add("CREATE INDEX IF NOT EXISTS message_state_index\n" +
 //                "ON "+keyspace

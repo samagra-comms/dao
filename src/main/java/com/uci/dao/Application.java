@@ -1,5 +1,6 @@
 package com.uci.dao;
 
+import com.datastax.driver.core.utils.UUIDs;
 import com.uci.dao.models.XMessageDAO;
 import com.uci.dao.repository.XMessageRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,8 @@ import reactor.core.publisher.SignalType;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * @author chakshu
@@ -36,18 +39,23 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-
-        xMessageRepository.insert(new XMessageDAO(new Long(121313), "HHBJ", "hkkh", "efef", "grdgrdg", LocalDateTime.now(),
+        for(int i=0; i<1000; i++){
+            log.info(UUIDs.timeBased().toString());
+        }
+        xMessageRepository.insert(new XMessageDAO(UUIDs.timeBased(), "HHBJ", "hkkh", "efef", "grdgrdg", LocalDateTime.now(),
                 "HHBJ", "hkkh", "efef", "grdgrdg", "HHBJ", "hkkh", "efef")).log().subscribe();
-        xMessageRepository.insert(new XMessageDAO(new Long(1213134), "HHB", "hkkh", "efef", "grdgrdg", LocalDateTime.now(),
+        xMessageRepository.insert(new XMessageDAO(UUIDs.timeBased(), "HHB", "hkkh", "efef", "grdgrdg", LocalDateTime.now(),
                 "HHBJ", "hkkh", "efef", "grdgrdg", "HHBJ", "hkkh", "efef")).log().subscribe();
         LocalDateTime yesterday = LocalDateTime.now().minusDays(1L);
-        xMessageRepository.findAllByUserIdAndTimestampAfter("HHBJ", yesterday).subscribe(xMessageDAO -> {
-            log.info("XMessage List Item :>> " + counter + "  " + xMessageDAO.getMessageId() + " " + xMessageDAO.getTimestamp());
-            counter += 1;
+        xMessageRepository.findAllByUserId("7837833100").subscribe(new Consumer<List<XMessageDAO>>() {
+            @Override
+            public void accept(List<XMessageDAO> xMessageDAO) {
+                log.info("XMessage List Item All :>> " + counter + "  " + xMessageDAO.get(counter).getApp());
+                counter += 1;
+            }
         });
-        xMessageRepository.findAllByUserIdAndTimestampAfter("HHBJ",yesterday).subscribe(xMessageDAO -> {
-            log.info("XMessage List Item :>> " + counter + "  " + xMessageDAO.getMessageId() + " " + xMessageDAO.getTimestamp());
+        xMessageRepository.findAllByFromIdAndTimestampAfter("hkkh",yesterday).subscribe(xMessageDAO -> {
+            log.info("XMessage List Item :>> " + counter + "  " + xMessageDAO.getFromId() + " " + xMessageDAO.getTimestamp());
             counter += 1;
         });
     }
