@@ -9,6 +9,7 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
 import org.springframework.data.cassandra.core.mapping.Table;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import static org.springframework.data.cassandra.core.cql.PrimaryKeyType.CLUSTERED;
 import static org.springframework.data.cassandra.core.cql.PrimaryKeyType.PARTITIONED;
@@ -21,7 +22,7 @@ import static org.springframework.data.cassandra.core.cql.PrimaryKeyType.PARTITI
 @Table("XMessage")
 public class XMessageDAO {
     @Column
-    private Long id;
+    private UUID id;
 
     @PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED)
     private String userId;
