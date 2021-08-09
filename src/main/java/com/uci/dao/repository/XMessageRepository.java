@@ -5,6 +5,7 @@ import org.springframework.data.cassandra.repository.AllowFiltering;
 import org.springframework.data.cassandra.repository.ReactiveCassandraRepository;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -13,6 +14,9 @@ import java.util.List;
 @Repository
 public interface XMessageRepository extends ReactiveCassandraRepository<XMessageDAO, Long> {
 
+	@AllowFiltering
+	Mono<Boolean> existsByUserId(String userID);
+	
     Flux<List<XMessageDAO>> findAllByFromIdOrderByTimestampDesc(String fromID);
 
     Flux<XMessageDAO> findFirstByFromIdOrderByTimestampDesc(String fromID);
