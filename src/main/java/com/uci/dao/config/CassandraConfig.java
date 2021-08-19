@@ -92,4 +92,11 @@ public class CassandraConfig extends AbstractReactiveCassandraConfiguration {
 //                +".XMessage ( KEYS ( messageState ) ) ");
         return scripts;
     }
+    
+    /**
+     * @Author Surabhi
+     * Note: Fix for JmxReporter not found
+     */
+    @Override
+    protected boolean getMetricsEnabled() { return false; }
 }
