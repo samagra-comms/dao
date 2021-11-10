@@ -2,6 +2,7 @@ package com.uci.dao.repository;
 
 import com.uci.dao.models.XMessageDAO;
 import org.springframework.data.cassandra.repository.AllowFiltering;
+import org.springframework.data.cassandra.repository.Query;
 import org.springframework.data.cassandra.repository.ReactiveCassandraRepository;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
@@ -10,6 +11,7 @@ import reactor.core.publisher.Mono;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 public interface XMessageRepository extends ReactiveCassandraRepository<XMessageDAO, Long> {
@@ -24,7 +26,7 @@ public interface XMessageRepository extends ReactiveCassandraRepository<XMessage
     Flux<XMessageDAO> findFirstByAppOrderByTimestampDesc(String appName);
 
     @AllowFiltering
-    Flux<List<XMessageDAO>> findAllByUserId(String userID);
+    Flux<XMessageDAO> findAllByUserId(String userID);
 
     Flux<XMessageDAO> findByMessageId(String messageID);
 
@@ -46,6 +48,9 @@ public interface XMessageRepository extends ReactiveCassandraRepository<XMessage
 
     @AllowFiltering
     Flux<XMessageDAO> findAllByFromIdAndTimestampAfter(String userID, LocalDateTime timestamp);
+
+    @AllowFiltering
+    Flux<XMessageDAO> findById(UUID uuid);
 }
 
 

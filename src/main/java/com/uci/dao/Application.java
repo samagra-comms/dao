@@ -39,24 +39,24 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        for(int i=0; i<1000; i++){
-            log.info(UUIDs.timeBased().toString());
-        }
-        xMessageRepository.insert(new XMessageDAO(UUIDs.timeBased(), "HHBJ", "hkkh", "efef", "grdgrdg", LocalDateTime.now(),
-                "HHBJ", "hkkh", "efef", "grdgrdg", "HHBJ", "hkkh", "efef")).log().subscribe();
-        xMessageRepository.insert(new XMessageDAO(UUIDs.timeBased(), "HHB", "hkkh", "efef", "grdgrdg", LocalDateTime.now(),
-                "HHBJ", "hkkh", "efef", "grdgrdg", "HHBJ", "hkkh", "efef")).log().subscribe();
-        LocalDateTime yesterday = LocalDateTime.now().minusDays(1L);
-        xMessageRepository.findAllByUserId("7837833100").subscribe(new Consumer<List<XMessageDAO>>() {
-            @Override
-            public void accept(List<XMessageDAO> xMessageDAO) {
-                log.info("XMessage List Item All :>> " + counter + "  " + xMessageDAO.get(counter).getApp());
-                counter += 1;
-            }
-        });
-        xMessageRepository.findAllByFromIdAndTimestampAfter("hkkh",yesterday).subscribe(xMessageDAO -> {
-            log.info("XMessage List Item :>> " + counter + "  " + xMessageDAO.getFromId() + " " + xMessageDAO.getTimestamp());
-            counter += 1;
-        });
+//        for(int i=0; i<1000; i++){
+//            log.info(UUIDs.timeBased().toString());
+//        }
+//        xMessageRepository.insert(new XMessageDAO(UUIDs.timeBased(), "HHBJ", "hkkh", "efef", "grdgrdg", LocalDateTime.now(),
+//                "HHBJ", "hkkh", "efef", "grdgrdg", "HHBJ", "hkkh", "efef")).log().subscribe();
+//        xMessageRepository.insert(new XMessageDAO(UUIDs.timeBased(), "HHB", "hkkh", "efef", "grdgrdg", LocalDateTime.now(),
+//                "HHBJ", "hkkh", "efef", "grdgrdg", "HHBJ", "hkkh", "efef")).log().subscribe();
+//        LocalDateTime yesterday = LocalDateTime.now().minusDays(1L);
+//        xMessageRepository.findAllByUserId("7837833100").subscribe(new Consumer<List<XMessageDAO>>() {
+//            @Override
+//            public void accept(List<XMessageDAO> xMessageDAO) {
+//                log.info("XMessage List Item All :>> " + counter + "  " + xMessageDAO.get(counter).getApp());
+//                counter += 1;
+//            }
+//        });
+//        xMessageRepository.findAllByFromIdAndTimestampAfter("hkkh",yesterday).subscribe(xMessageDAO -> {
+//            log.info("XMessage List Item :>> " + counter + "  " + xMessageDAO.getFromId() + " " + xMessageDAO.getTimestamp());
+//            counter += 1;
+//        });
     }
 }
