@@ -51,9 +51,6 @@ public class CassandraConfig extends AbstractReactiveCassandraConfiguration {
     }
 
     @Override
-    protected boolean getMetricsEnabled() { return false; }
-
-    @Override
     public String[] getEntityBasePackages() {
         return new String[]{"com.uci.dao"};
     }
