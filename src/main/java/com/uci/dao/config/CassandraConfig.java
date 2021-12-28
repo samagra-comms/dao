@@ -97,11 +97,11 @@ public class CassandraConfig extends AbstractReactiveCassandraConfiguration {
         return scripts;
     }
 
-    @Bean
-    public QueryLogger queryLogger(Cluster cluster) {
-        QueryLogger queryLogger = QueryLogger.builder()
-                .build();
-        cluster.register(queryLogger);
-        return queryLogger;
-    }
+//    @Bean
+//    public QueryLogger queryLogger(Cluster cluster) {
+//        QueryLogger queryLogger = QueryLogger.builder()
+//                .build();
+//        cluster.register(queryLogger);
+//        return queryLogger;
+//    }
 }
