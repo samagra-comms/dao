@@ -1,6 +1,9 @@
 package com.uci.dao.repository;
 
 import com.uci.dao.models.XMessageDAO;
+
+import messagerosa.core.model.XMessage;
+
 import org.springframework.data.cassandra.repository.AllowFiltering;
 import org.springframework.data.cassandra.repository.Query;
 import org.springframework.data.cassandra.repository.ReactiveCassandraRepository;
@@ -51,6 +54,11 @@ public interface XMessageRepository extends ReactiveCassandraRepository<XMessage
 
     @AllowFiltering
     Flux<XMessageDAO> findById(UUID uuid);
+    
+    Flux<XMessageDAO> findByXMessageAndUserId(XMessage xmsg, String userID);
+    
+    @AllowFiltering
+    Flux<XMessageDAO> findFirstByAppAndUserIdAndFromIdAndMessageStateOrderByTimestampDesc(String app, String userID, String fromId, String messageState);
 }
 
 
