@@ -8,6 +8,7 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
 import org.springframework.data.cassandra.core.mapping.Table;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -20,7 +21,7 @@ import static org.springframework.data.cassandra.core.cql.PrimaryKeyType.PARTITI
 @AllArgsConstructor
 @Builder
 @Table("XMessage")
-public class XMessageDAO {
+public class XMessageDAO implements Serializable {
     @Column
     private UUID id;
 
