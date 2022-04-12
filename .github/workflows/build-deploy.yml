@@ -74,9 +74,32 @@ jobs:
         with:
           java-version: 11
           distribution: 'temurin'
-          server-id: github
-          server-username: GITHUB_USERNAME
-          server-password: GITHUB_TOKEN
+
+      - name: maven-settings-xml-action
+        uses: whelk-io/maven-settings-xml-action@v20
+        with:
+          servers: >
+            [
+              {
+                "id": "github-message-rosa",
+                "username": "${env.GITHUB_USERNAME}",
+                "password": "${env.GITHUB_TOKEN}"
+              },
+              {
+                "id": "github-utils",
+                "username": "${env.GITHUB_USERNAME}",
+                "password": "${env.GITHUB_TOKEN}"
+              },
+              {
+                "id": "github",
+                "username": "${env.GITHUB_USERNAME}",
+                "password": "${env.GITHUB_TOKEN}"
+              }
+            ]
+          output_file: $GITHUB_WORKSPACE/settings.xml
+        env:
+          GITHUB_USERNAME: ${{ secrets.USERNAME }}
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
 
       - name: Cache Maven packages
         uses: actions/cache@v2
@@ -86,7 +109,9 @@ jobs:
           restore-keys: ${{ runner.os }}-m2-
 
       - name: Deploy
-        run: mvn clean -DskipTests -s $GITHUB_WORKSPACE/settings.xml -Pgithub deploy
         env:
           GITHUB_USERNAME: ${{ secrets.USERNAME }}
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        run: |
+          cat $GITHUB_WORKSPACE/settings.xml
+          mvn clean -DskipTests -s $GITHUB_WORKSPACE/settings.xml -Pgithub deploy
