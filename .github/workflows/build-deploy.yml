@@ -86,7 +86,7 @@ jobs:
           restore-keys: ${{ runner.os }}-m2-
 
       - name: Deploy
-        run: mvn clean -DskipTests -Pgithub deploy
+        run: mvn clean -DskipTests -s $GITHUB_WORKSPACE/settings.xml -Pgithub deploy
         env:
           GITHUB_USERNAME: ${{ secrets.USERNAME }}
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
