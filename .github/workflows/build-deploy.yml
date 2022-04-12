@@ -16,6 +16,12 @@ jobs:
         with:
           java-version: 11
           distribution: 'temurin'
+          server-id: github-message-rosa
+          server-username: GITHUB_USERNAME
+          server-password: GITHUB_TOKEN
+          server-id: github-utils
+          server-username: GITHUB_USERNAME
+          server-password: GITHUB_TOKEN
       
       - name: Cache SonarCloud packages
         uses: actions/cache@v1
@@ -36,5 +42,5 @@ jobs:
           GITHUB_USERNAME: ${{ secrets.USERNAME }}
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         run: |
-          cat .github/workflows/settings.xml
-          mvn -B verify -s .github/workflows/settings.xml -DskipTests
+          cat $GITHUB_WORKSPACE/settings.xml
+          mvn -B verify -s $GITHUB_WORKSPACE/settings.xml -DskipTests
