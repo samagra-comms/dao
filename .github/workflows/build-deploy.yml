@@ -19,9 +19,6 @@ jobs:
           server-id: github-message-rosa
           server-username: GITHUB_USERNAME
           server-password: GITHUB_TOKEN
-          server-id: github-utils
-          server-username: GITHUB_USERNAME
-          server-password: GITHUB_TOKEN
       
       - name: Cache SonarCloud packages
         uses: actions/cache@v1
