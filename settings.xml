@@ -5,13 +5,13 @@
     <servers>
         <server>
             <id>github-message-rosa</id>
-            <username>${{ secrets.USERNAME }}</username>
-            <password>${{ secrets.TOKEN }}</password>
+            <username>$GITHUB_USERNAME</username>
+            <password>$GITHUB_TOKEN</password>
         </server>
         <server>
             <id>github-utils</id>
-            <username>${{ secrets.USERNAME }}</username>
-            <password>${{ secrets.TOKEN }}</password>
+            <username>$GITHUB_USERNAME</username>
+            <password>$GITHUB_USERNAME</password>
         </server>
     </servers>
 </settings>
