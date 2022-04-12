@@ -32,9 +32,9 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
       
       - name: Build and analyze
-        run: |
-          cat settings.xml
-          mvn -B verify -s settings.xml -DskipTests
         env:
           GITHUB_USERNAME: ${{ secrets.USERNAME }}
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        run: |
+          cat settings.xml
+          mvn -B verify -s settings.xml -DskipTests
