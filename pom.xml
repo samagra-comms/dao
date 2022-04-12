@@ -36,19 +36,21 @@
 					<name>GitHub Packages</name>
 					<url>https://maven.pkg.github.com/samagra-comms/dao</url>
 				</repository>
-				<repository>
-					<id>github</id>
-					<name>GitHub Packages</name>
-					<url>https://maven.pkg.github.com/samagra-comms/message-rosa</url>
-				</repository>
-				<repository>
-					<id>github</id>
-					<name>GitHub Packages</name>
-					<url>https://maven.pkg.github.com/samagra-comms/utils</url>
-				</repository>
 			</distributionManagement>
 		</profile>
 	</profiles>
+	<repositories>
+		<repository>
+			<id>github-message-rosa</id>
+			<name>GitHub Packages</name>
+			<url>https://maven.pkg.github.com/samagra-comms/message-rosa</url>
+		</repository>
+		<repository>
+			<id>github-utils</id>
+			<name>GitHub Packages</name>
+			<url>https://maven.pkg.github.com/samagra-comms/utils</url>
+		</repository>
+	</repositories>
 	<dependencies>
 
 		<dependency>
