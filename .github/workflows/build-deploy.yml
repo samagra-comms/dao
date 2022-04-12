@@ -36,5 +36,5 @@ jobs:
           GITHUB_USERNAME: ${{ secrets.USERNAME }}
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         run: |
-          cat settings.xml
-          mvn -B verify -s settings.xml -DskipTests
+          cat .github/workflows/settings.xml
+          mvn -B verify -s .github/workflows/settings.xml -DskipTests
