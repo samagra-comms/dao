@@ -1,5 +1,7 @@
 package com.uci.dao.config;
 
+import com.datastax.driver.core.Cluster;
+import com.datastax.driver.core.QueryLogger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -50,7 +52,6 @@ public class CassandraConfig extends AbstractReactiveCassandraConfiguration {
         return SchemaAction.NONE;
     }
 
-    @Override
     protected boolean getMetricsEnabled() { return false; }
 
     @Override
@@ -95,4 +96,12 @@ public class CassandraConfig extends AbstractReactiveCassandraConfiguration {
 //                +".XMessage ( KEYS ( messageState ) ) ");
         return scripts;
     }
+
+//    @Bean
+//    public QueryLogger queryLogger(Cluster cluster) {
+//        QueryLogger queryLogger = QueryLogger.builder()
+//                .build();
+//        cluster.register(queryLogger);
+//        return queryLogger;
+//    }
 }
