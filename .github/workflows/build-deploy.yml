@@ -33,9 +33,30 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
+
+      - name: maven-settings-xml-action
+        uses: whelk-io/maven-settings-xml-action@v20
+        with:
+          servers: >
+            [
+              {
+                "id": "github-message-rosa",
+                "username": "${env.GITHUB_USERNAME}",
+                "password": "${env.GITHUB_TOKEN}"
+              },
+              {
+                "id": "github-utils",
+                "username": "${env.GITHUB_USERNAME}",
+                "password": "${env.GITHUB_TOKEN}"
+              }
+            ]
+          output_file: $GITHUB_WORKSPACE/settings.xml
+        env:
+          GITHUB_USERNAME: ${{ secrets.USERNAME }}
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
       
       - name: Build and analyze
         env:
           GITHUB_USERNAME: ${{ secrets.USERNAME }}
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
-        run: mvn -B verify -DskipTests
+        run: mvn -B verify -s $GITHUB_WORKSPACE/settings.xml -DskipTests
