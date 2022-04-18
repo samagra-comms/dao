@@ -15,9 +15,6 @@ jobs:
         with:
           java-version: 11
           distribution: 'temurin'
-          server-id: github-message-rosa
-          server-username: GITHUB_USERNAME
-          server-password: GITHUB_TOKEN
       
       - name: Cache Maven packages
         uses: actions/cache@v1
