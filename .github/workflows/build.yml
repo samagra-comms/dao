@@ -1,9 +1,6 @@
 name: Build
-on:
-  push:
-    tags:
-      - 'v*.*.*'
-      
+on: [push, pull_request]
+
 jobs:
   build:
     name: Build
@@ -102,13 +99,6 @@ jobs:
           path: ~/.m2/repository
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2-
-
-      # - name: Delete previous build if present
-      #   uses: actions/delete-package-versions@v3
-      #   with: 
-      #     min-versions-to-keep: 0
-      #     package-name: 'com.uci.dao'
-      #     token: ${{ secrets.TOKEN }}
 
       - name: Deploy
         env:
