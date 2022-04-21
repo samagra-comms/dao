@@ -10,6 +10,7 @@
 	<description>dao</description>
 	<packaging>jar</packaging>
 	<version>1.0</version>
+	<!-- On changing, Set version in deploy.xml to delete the previous packages if exists and deploy new package for the specified version -->
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
