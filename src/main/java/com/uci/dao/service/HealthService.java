@@ -22,6 +22,7 @@ public class HealthService extends UtilHealthService{
 	@Autowired
     private XMessageRepository xMessageRepository;
 	
+	
 	/**
 	 * Returns health json node for kafka, campaign url and cassandra
 	 * 
