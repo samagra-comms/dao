@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -33,7 +34,7 @@ public interface XMessageRepository extends ReactiveCassandraRepository<XMessage
     Flux<XMessageDAO> findFirstByAppOrderByTimestampDesc(String appName);
 
     @AllowFiltering
-    Flux<XMessageDAO> findAllByUserId(String userID);
+    Flux<Slice<XMessageDAO>> findAllByUserId(Pageable pageable, String userID);
 
     Flux<XMessageDAO> findByMessageId(String messageID);
 
@@ -69,6 +70,12 @@ public interface XMessageRepository extends ReactiveCassandraRepository<XMessage
     
     @AllowFiltering
     Flux<Slice<XMessageDAO>> findAllByUserIdAndFromId(Pageable paging, String userID, String fromID);
+
+    @AllowFiltering
+    Flux<Slice<XMessageDAO>> findAllByAppAndTimestampAfterAndTimestampBeforeAndProvider(Pageable paging, String name, Timestamp startDate, Timestamp endDate, String provider);
+
+    @AllowFiltering
+    Flux<Slice<XMessageDAO>> findAllByUserIdAndTimestampAfterAndTimestampBeforeAndProvider(Pageable paging, String userId, Timestamp startDate, Timestamp endDate, String provider);
 }
 
 
