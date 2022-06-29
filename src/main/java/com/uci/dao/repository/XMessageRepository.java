@@ -34,7 +34,7 @@ public interface XMessageRepository extends ReactiveCassandraRepository<XMessage
     Flux<XMessageDAO> findFirstByAppOrderByTimestampDesc(String appName);
 
     @AllowFiltering
-    Flux<Slice<XMessageDAO>> findAllByUserId(Pageable pageable, String userID);
+    Flux<XMessageDAO> findAllByUserId(Pageable pageable, String userID);
 
     Flux<XMessageDAO> findByMessageId(String messageID);
 
@@ -72,10 +72,10 @@ public interface XMessageRepository extends ReactiveCassandraRepository<XMessage
     Flux<Slice<XMessageDAO>> findAllByUserIdAndFromId(Pageable paging, String userID, String fromID);
 
     @AllowFiltering
-    Flux<Slice<XMessageDAO>> findAllByAppAndTimestampAfterAndTimestampBeforeAndProvider(Pageable paging, String name, Timestamp startDate, Timestamp endDate, String provider);
+    Mono<Slice<XMessageDAO>> findAllByAppAndTimestampAfterAndTimestampBeforeAndProvider(Pageable paging, String name, Timestamp startDate, Timestamp endDate, String provider);
 
     @AllowFiltering
-    Flux<Slice<XMessageDAO>> findAllByUserIdAndTimestampAfterAndTimestampBeforeAndProvider(Pageable paging, String userId, Timestamp startDate, Timestamp endDate, String provider);
+    Mono<Slice<XMessageDAO>> findAllByUserIdAndTimestampAfterAndTimestampBeforeAndProvider(Pageable paging, String userId, Timestamp startDate, Timestamp endDate, String provider);
 }
 
 
