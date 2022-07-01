@@ -57,4 +57,13 @@ public class XMessageDAO implements Serializable {
     private String replyId;
     @Column
     private String causeId;
+
+    @Column
+    private UUID sessionId;
+
+    @Column
+    private String ownerOrgId;
+
+    @Column
+    private UUID ownerId;
 }
