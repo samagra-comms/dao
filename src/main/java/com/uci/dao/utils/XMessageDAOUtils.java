@@ -27,8 +27,8 @@ public class XMessageDAOUtils {
                 xmsgDao.setReplyId(xmsg.getMessageId().getReplyId());
                 if (xmsg.getMessageId() != null && xmsg.getMessageId().getChannelMessageId() != null) {
                     try {
-                        xmsgDao.setMessageId(xmsg.getMessageId().getChannelMessageId().split("-")[1]);
-                        xmsgDao.setCauseId(xmsg.getMessageId().getChannelMessageId().split("-")[0]);
+                        xmsgDao.setMessageId(xmsg.getMessageId().getChannelMessageId().toString());
+                        xmsgDao.setCauseId(xmsg.getMessageId().getChannelMessageId().toString());
                     } catch (Exception e) {
                         xmsgDao.setMessageId(xmsg.getMessageId().getChannelMessageId());
                     }

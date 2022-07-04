@@ -32,6 +32,9 @@ public class CassandraConfig extends AbstractReactiveCassandraConfiguration {
     @Value("${cassandra.port}")
     private int port;
 
+    @Value("${cassandra.migration.count}")
+    private int migrationCount;
+
     @Override
     protected String getKeyspaceName() {
         return keyspace;
@@ -70,12 +73,39 @@ public class CassandraConfig extends AbstractReactiveCassandraConfiguration {
         return Collections.singletonList(specification);
     }
 
-
-
+    /**
+     * Get list of scripts run on startup
+     * @return
+     */
     @Override
     protected List<String> getStartupScripts() {
+        List<String> all = getMigrationScripts();
+        Integer count = 0;
+        try {
+            if (migrationCount > 0) {
+                count = migrationCount;
+            }
+        } catch(NumberFormatException ex){
+            System.out.println("NumberFormatException: " + ex.getMessage());
+        } catch(Exception ex){
+            System.out.println("Exception: " + ex.getMessage());
+        }
+
         List<String> scripts = new ArrayList<>();
-        scripts.add("CREATE TABLE IF NOT EXISTS " +
+        for(int i=(count); i<all.size(); i++) {
+            scripts.add(all.get(i));
+        }
+
+        return scripts;
+    }
+
+    /**
+     * List of migration scripts
+     * @return
+     */
+    protected List<String> getMigrationScripts() {
+        List<String> allScripts = new ArrayList<>();
+        allScripts.add("CREATE TABLE IF NOT EXISTS " +
                 keyspace + ".XMessage(id uuid," +
                 "userId text, " +
                 "fromId text, " +
@@ -91,10 +121,15 @@ public class CassandraConfig extends AbstractReactiveCassandraConfiguration {
                 "causeId text, " +
                 "PRIMARY KEY ((userId,fromId), timestamp)) " +
                 "WITH CLUSTERING ORDER BY (timestamp DESC)");
-//        scripts.add("CREATE INDEX IF NOT EXISTS message_state_index\n" +
+        allScripts.add("ALTER TABLE " + keyspace + ".XMessage ADD sessionId uuid;");
+        allScripts.add("ALTER TABLE " + keyspace + ".XMessage ADD ownerOrgId text;");
+        allScripts.add("ALTER TABLE " + keyspace + ".XMessage ADD ownerId text;");
+
+
+//        allScripts.add("CREATE INDEX IF NOT EXISTS message_state_index\n" +
 //                "ON "+keyspace
 //                +".XMessage ( KEYS ( messageState ) ) ");
-        return scripts;
+        return allScripts;
     }
 
 //    @Bean
