@@ -79,6 +79,9 @@ public interface XMessageRepository extends ReactiveCassandraRepository<XMessage
 
     @AllowFiltering
     Mono<Slice<XMessageDAO>> findAllByUserIdInAndFromIdInAndTimestampAfterAndTimestampBeforeAndProvider(Pageable paging, List<String>  listUserId, List<String> listFromId, Timestamp startDate, Timestamp endDate, String provider);
+
+    @AllowFiltering
+    Flux<XMessageDAO> findAllByMessageIdAndUserIdInAndFromIdIn(String messageId, List<String> listUserId, List<String> listFromId);
 }
 
 
