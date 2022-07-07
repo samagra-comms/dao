@@ -27,8 +27,8 @@ public class XMessageDAOUtils {
                 xmsgDao.setReplyId(xmsg.getMessageId().getReplyId());
                 if (xmsg.getMessageId() != null && xmsg.getMessageId().getChannelMessageId() != null) {
                     try {
-                        xmsgDao.setMessageId(xmsg.getMessageId().getChannelMessageId().split("-")[1]);
-                        xmsgDao.setCauseId(xmsg.getMessageId().getChannelMessageId().split("-")[0]);
+                        xmsgDao.setMessageId(xmsg.getMessageId().getChannelMessageId().toString());
+                        xmsgDao.setCauseId(xmsg.getMessageId().getChannelMessageId().toString());
                     } catch (Exception e) {
                         xmsgDao.setMessageId(xmsg.getMessageId().getChannelMessageId());
                     }
@@ -48,6 +48,9 @@ public class XMessageDAOUtils {
         xmsgDao.setFromId(xmsg.getFrom().getUserID());
         xmsgDao.setChannel(xmsg.getChannelURI());
         xmsgDao.setProvider(xmsg.getProviderURI());
+        xmsgDao.setSessionId(xmsg.getSessionId());
+        xmsgDao.setOwnerOrgId(xmsg.getOwnerOrgId());
+        xmsgDao.setOwnerId(xmsg.getOwnerId());
 
         LocalDateTime triggerTime =
                 LocalDateTime.ofInstant(Instant.ofEpochMilli(xmsg.getTimestamp()),
