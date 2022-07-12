@@ -1,4 +1,4 @@
-name: Build on Push & Pull Request
+name: Maven Build
 on: 
   push:
     branches:
