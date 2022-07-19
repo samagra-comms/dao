@@ -66,4 +66,7 @@ public class XMessageDAO implements Serializable {
 
     @Column
     private String ownerId;
+
+    @Column
+    private UUID botUuid;
 }
