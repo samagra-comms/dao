@@ -51,7 +51,7 @@ public class XMessageDAOUtils {
         xmsgDao.setSessionId(xmsg.getSessionId());
         xmsgDao.setOwnerOrgId(xmsg.getOwnerOrgId());
         xmsgDao.setOwnerId(xmsg.getOwnerId());
-        xmsgDao.setBotUuid(xmsg.getBotUuid());
+        xmsgDao.setBotUuid(xmsg.getBotId());
 
         LocalDateTime triggerTime =
                 LocalDateTime.ofInstant(Instant.ofEpochMilli(xmsg.getTimestamp()),
