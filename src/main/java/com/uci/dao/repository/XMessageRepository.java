@@ -26,33 +26,11 @@ public interface XMessageRepository extends ReactiveCassandraRepository<XMessage
 
 	@AllowFiltering
 	Mono<Boolean> existsByUserId(String userID);
-	
-    Flux<List<XMessageDAO>> findAllByFromIdOrderByTimestampDesc(String fromID);
-
-    Flux<XMessageDAO> findFirstByFromIdOrderByTimestampDesc(String fromID);
-
-    Flux<XMessageDAO> findFirstByAppOrderByTimestampDesc(String appName);
-
-    @AllowFiltering
-    Flux<XMessageDAO> findAllByUserId(Pageable pageable, String userID);
-
-    Flux<XMessageDAO> findByMessageId(String messageID);
-
-    Flux<XMessageDAO> findFirstByReplyIdOrderByTimestampDesc(String replyId);
-
-    Flux<XMessageDAO> findFirstByCauseIdAndMessageStateOrderByTimestampDesc(String causeId, String messageState);
-
-    @AllowFiltering
-    Flux<List<XMessageDAO>> findAllByUserIdOrderByTimestampDesc(String userID);
 
     @AllowFiltering
     Flux<XMessageDAO> findAllByUserIdAndTimestampAfter(String userID, LocalDateTime timestamp);
 
-    Flux<XMessageDAO> findTopByFromIdAndMessageStateOrderByTimestampDesc(String fromId, String messageState);
-
     Flux<XMessageDAO> findFirstByUserIdAndCauseIdAndMessageStateOrderByTimestampDesc(String userId, String causeId, String messageState);
-
-    Flux<XMessageDAO> findTopByUserIdOrderByTimestampDesc(String userId);
 
     @AllowFiltering
     Flux<XMessageDAO> findAllByFromIdAndTimestampAfter(String userID, LocalDateTime timestamp);
@@ -60,22 +38,14 @@ public interface XMessageRepository extends ReactiveCassandraRepository<XMessage
     @AllowFiltering
     Flux<XMessageDAO> findById(UUID uuid);
     
-    Flux<XMessageDAO> findByXMessageAndUserId(XMessage xmsg, String userID);
-    
     @AllowFiltering
     Flux<XMessageDAO> findFirstByAppAndUserIdAndFromIdAndMessageStateOrderByTimestampDesc(String app, String userID, String fromId, String messageState);
-    
-    @AllowFiltering
-    Flux<XMessageDAO> findAllByUserIdOrderByTimestamp(String userID);
     
     @AllowFiltering
     Flux<Slice<XMessageDAO>> findAllByUserIdAndFromId(Pageable paging, String userID, String fromID);
 
     @AllowFiltering
     Mono<Slice<XMessageDAO>> findAllByAppAndTimestampAfterAndTimestampBeforeAndProvider(Pageable paging, String name, Timestamp startDate, Timestamp endDate, String provider);
-
-    @AllowFiltering
-    Mono<Slice<XMessageDAO>> findAllByUserIdAndTimestampAfterAndTimestampBeforeAndProvider(Pageable paging, String  userId, Timestamp startDate, Timestamp endDate, String provider);
 
     @AllowFiltering
     Mono<Slice<XMessageDAO>> findAllByUserIdInAndFromIdInAndTimestampAfterAndTimestampBeforeAndProvider(Pageable paging, List<String>  listUserId, List<String> listFromId, Timestamp startDate, Timestamp endDate, String provider);
