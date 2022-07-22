@@ -1,5 +1,10 @@
-# Spring Example Reactive Cassandra Repository
+![Maven Build](https://github.com/samagra-comms/dao/actions/workflows/build.yml/badge.svg)
+![Github Package](https://github.com/samagra-comms/dao/actions/workflows/build-deploy.yml/badge.svg)
 
+# Overview
+Dao holds the dao & repository classes for XMessage.
+
+## Reactive Cassandra Repository
 Example using spring boot, and spring data reactive cassandra repository
 
 ## Getting Started
