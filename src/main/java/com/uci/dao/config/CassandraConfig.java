@@ -145,7 +145,7 @@ public class CassandraConfig extends AbstractReactiveCassandraConfiguration {
         allScripts.add("ALTER TABLE " + keyspace + ".XMessage ADD ownerOrgId text;");
         allScripts.add("ALTER TABLE " + keyspace + ".XMessage ADD ownerId text;");
         allScripts.add("ALTER TABLE " + keyspace + ".XMessage ADD botUuid uuid;");
-
+        allScripts.add("ALTER TABLE " + keyspace + ".XMessage ADD tags list<text>;");
 
 //        allScripts.add("CREATE INDEX IF NOT EXISTS message_state_index\n" +
 //                "ON "+keyspace
