@@ -52,6 +52,9 @@ public interface XMessageRepository extends ReactiveCassandraRepository<XMessage
 
     @AllowFiltering
     Flux<XMessageDAO> findAllByMessageIdAndUserIdInAndFromIdIn(String messageId, List<String> listUserId, List<String> listFromId);
+
+    @AllowFiltering
+    Flux<XMessageDAO> findAllByUserId(String userID);
 }
 
 
