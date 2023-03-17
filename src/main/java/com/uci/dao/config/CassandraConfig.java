@@ -2,16 +2,21 @@ package com.uci.dao.config;
 
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.QueryLogger;
+import com.datastax.oss.driver.api.core.CqlSessionBuilder;
+import com.datastax.oss.driver.api.core.config.DefaultDriverOption;
+import com.datastax.oss.driver.api.core.config.DriverConfigLoader;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.cassandra.config.AbstractReactiveCassandraConfiguration;
 import org.springframework.data.cassandra.config.SchemaAction;
+import org.springframework.data.cassandra.config.SessionBuilderConfigurer;
 import org.springframework.data.cassandra.core.cql.keyspace.CreateKeyspaceSpecification;
 import org.springframework.data.cassandra.core.cql.keyspace.DropKeyspaceSpecification;
 import org.springframework.data.cassandra.core.cql.keyspace.KeyspaceOption;
 import org.springframework.data.cassandra.repository.config.EnableReactiveCassandraRepositories;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -73,6 +78,17 @@ public class CassandraConfig extends AbstractReactiveCassandraConfiguration {
         return Collections.singletonList(specification);
     }
 
+//    @Override
+//    protected SessionBuilderConfigurer getSessionBuilderConfigurer() {
+//        return new SessionBuilderConfigurer() {
+//            @Override
+//            public CqlSessionBuilder configure(CqlSessionBuilder cqlSessionBuilder) {
+//                return cqlSessionBuilder
+//                        .withConfigLoader(DriverConfigLoader.programmaticBuilder().withDuration(DefaultDriverOption.REQUEST_TIMEOUT, Duration.ofMillis(15000)).build());
+//            }
+//        };
+//    }
+
     /**
      * Get list of scripts run on startup
      * @return
@@ -85,6 +101,10 @@ public class CassandraConfig extends AbstractReactiveCassandraConfiguration {
             if (migrationCount > 0) {
                 count = migrationCount;
             }
+            if(migrationCount > all.size()) {
+                count = all.size();
+            }
+            System.out.println("Count: "+count+", migrationCount: "+migrationCount);
         } catch(NumberFormatException ex){
             System.out.println("NumberFormatException: " + ex.getMessage());
         } catch(Exception ex){
@@ -125,6 +145,7 @@ public class CassandraConfig extends AbstractReactiveCassandraConfiguration {
         allScripts.add("ALTER TABLE " + keyspace + ".XMessage ADD ownerOrgId text;");
         allScripts.add("ALTER TABLE " + keyspace + ".XMessage ADD ownerId text;");
         allScripts.add("ALTER TABLE " + keyspace + ".XMessage ADD botUuid uuid;");
+        allScripts.add("ALTER TABLE " + keyspace + ".XMessage ADD tags list<text>;");
 
 //        allScripts.add("CREATE INDEX IF NOT EXISTS message_state_index\n" +
 //                "ON "+keyspace

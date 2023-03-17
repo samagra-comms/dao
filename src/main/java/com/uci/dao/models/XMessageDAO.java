@@ -15,6 +15,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import static org.springframework.data.cassandra.core.cql.PrimaryKeyType.CLUSTERED;
@@ -69,4 +70,7 @@ public class XMessageDAO implements Serializable {
 
     @Column
     private UUID botUuid;
+
+    @Column
+    private List<String> tags;
 }
