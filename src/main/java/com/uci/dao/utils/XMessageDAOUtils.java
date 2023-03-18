@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uci.dao.models.XMessageDAO;
 import messagerosa.core.model.XMessage;
 
-import javax.xml.bind.JAXBException;
+import jakarta.xml.bind.JAXBException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.TimeZone;
