@@ -1,15 +1,22 @@
 package com.uci.dao.config;
 
+import com.datastax.driver.core.Cluster;
+import com.datastax.driver.core.QueryLogger;
+import com.datastax.oss.driver.api.core.CqlSessionBuilder;
+import com.datastax.oss.driver.api.core.config.DefaultDriverOption;
+import com.datastax.oss.driver.api.core.config.DriverConfigLoader;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.cassandra.config.AbstractReactiveCassandraConfiguration;
 import org.springframework.data.cassandra.config.SchemaAction;
+import org.springframework.data.cassandra.config.SessionBuilderConfigurer;
 import org.springframework.data.cassandra.core.cql.keyspace.CreateKeyspaceSpecification;
 import org.springframework.data.cassandra.core.cql.keyspace.DropKeyspaceSpecification;
 import org.springframework.data.cassandra.core.cql.keyspace.KeyspaceOption;
 import org.springframework.data.cassandra.repository.config.EnableReactiveCassandraRepositories;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -29,6 +36,9 @@ public class CassandraConfig extends AbstractReactiveCassandraConfiguration {
 
     @Value("${cassandra.port}")
     private int port;
+
+    @Value("${cassandra.migration.count}")
+    private int migrationCount;
 
     @Override
     protected String getKeyspaceName() {
@@ -50,6 +60,8 @@ public class CassandraConfig extends AbstractReactiveCassandraConfiguration {
         return SchemaAction.NONE;
     }
 
+    protected boolean getMetricsEnabled() { return false; }
+
     @Override
     public String[] getEntityBasePackages() {
         return new String[]{"com.uci.dao"};
@@ -66,12 +78,54 @@ public class CassandraConfig extends AbstractReactiveCassandraConfiguration {
         return Collections.singletonList(specification);
     }
 
+//    @Override
+//    protected SessionBuilderConfigurer getSessionBuilderConfigurer() {
+//        return new SessionBuilderConfigurer() {
+//            @Override
+//            public CqlSessionBuilder configure(CqlSessionBuilder cqlSessionBuilder) {
+//                return cqlSessionBuilder
+//                        .withConfigLoader(DriverConfigLoader.programmaticBuilder().withDuration(DefaultDriverOption.REQUEST_TIMEOUT, Duration.ofMillis(15000)).build());
+//            }
+//        };
+//    }
 
-
+    /**
+     * Get list of scripts run on startup
+     * @return
+     */
     @Override
     protected List<String> getStartupScripts() {
+        List<String> all = getMigrationScripts();
+        Integer count = 0;
+        try {
+            if (migrationCount > 0) {
+                count = migrationCount;
+            }
+            if(migrationCount > all.size()) {
+                count = all.size();
+            }
+            System.out.println("Count: "+count+", migrationCount: "+migrationCount);
+        } catch(NumberFormatException ex){
+            System.out.println("NumberFormatException: " + ex.getMessage());
+        } catch(Exception ex){
+            System.out.println("Exception: " + ex.getMessage());
+        }
+
         List<String> scripts = new ArrayList<>();
-        scripts.add("CREATE TABLE IF NOT EXISTS " +
+        for(int i=(count); i<all.size(); i++) {
+            scripts.add(all.get(i));
+        }
+
+        return scripts;
+    }
+
+    /**
+     * List of migration scripts
+     * @return
+     */
+    protected List<String> getMigrationScripts() {
+        List<String> allScripts = new ArrayList<>();
+        allScripts.add("CREATE TABLE IF NOT EXISTS " +
                 keyspace + ".XMessage(id uuid," +
                 "userId text, " +
                 "fromId text, " +
@@ -87,9 +141,23 @@ public class CassandraConfig extends AbstractReactiveCassandraConfiguration {
                 "causeId text, " +
                 "PRIMARY KEY ((userId,fromId), timestamp)) " +
                 "WITH CLUSTERING ORDER BY (timestamp DESC)");
-//        scripts.add("CREATE INDEX IF NOT EXISTS message_state_index\n" +
+        allScripts.add("ALTER TABLE " + keyspace + ".XMessage ADD sessionId uuid;");
+        allScripts.add("ALTER TABLE " + keyspace + ".XMessage ADD ownerOrgId text;");
+        allScripts.add("ALTER TABLE " + keyspace + ".XMessage ADD ownerId text;");
+        allScripts.add("ALTER TABLE " + keyspace + ".XMessage ADD botUuid uuid;");
+        allScripts.add("ALTER TABLE " + keyspace + ".XMessage ADD tags list<text>;");
+
+//        allScripts.add("CREATE INDEX IF NOT EXISTS message_state_index\n" +
 //                "ON "+keyspace
 //                +".XMessage ( KEYS ( messageState ) ) ");
-        return scripts;
+        return allScripts;
     }
+
+//    @Bean
+//    public QueryLogger queryLogger(Cluster cluster) {
+//        QueryLogger queryLogger = QueryLogger.builder()
+//                .build();
+//        cluster.register(queryLogger);
+//        return queryLogger;
+//    }
 }

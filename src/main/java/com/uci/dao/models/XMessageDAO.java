@@ -8,7 +8,14 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
 import org.springframework.data.cassandra.core.mapping.Table;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import static org.springframework.data.cassandra.core.cql.PrimaryKeyType.CLUSTERED;
@@ -20,7 +27,7 @@ import static org.springframework.data.cassandra.core.cql.PrimaryKeyType.PARTITI
 @AllArgsConstructor
 @Builder
 @Table("XMessage")
-public class XMessageDAO {
+public class XMessageDAO implements Serializable {
     @Column
     private UUID id;
 
@@ -32,6 +39,9 @@ public class XMessageDAO {
     private String channel;
     @Column
     private String provider;
+    
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @PrimaryKeyColumn(type = CLUSTERED, ordering = Ordering.DESCENDING)
     private LocalDateTime timestamp;
     @Column
@@ -48,4 +58,19 @@ public class XMessageDAO {
     private String replyId;
     @Column
     private String causeId;
+
+    @Column
+    private UUID sessionId;
+
+    @Column
+    private String ownerOrgId;
+
+    @Column
+    private String ownerId;
+
+    @Column
+    private UUID botUuid;
+
+    @Column
+    private List<String> tags;
 }
