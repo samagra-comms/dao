@@ -32,6 +32,12 @@ public class CassandraConfig extends AbstractReactiveCassandraConfiguration {
 
     @Value("${cassandra.migration.count}")
     private int migrationCount;
+    @Value("${spring.data.cassandra.basic.request.timeout}")
+    private String requestTimeout;
+    @Value("${spring.data.cassandra.advanced.control-connection.timeout}")
+    private String controlConnectionTimeout;
+    @Value("${spring.data.cassandra.advanced.metadata.schema.request-timeout}")
+    private String schemaRequestTimeout;
 
     @Override
     protected String getKeyspaceName() {
@@ -85,10 +91,9 @@ public class CassandraConfig extends AbstractReactiveCassandraConfiguration {
     @Override
     protected DriverConfigLoaderBuilderConfigurer getDriverConfigLoaderBuilderConfigurer() {
         return config ->
-                config.withString(DefaultDriverOption.METADATA_SCHEMA_REQUEST_TIMEOUT, "30s")
-                        .withString(DefaultDriverOption.CONTROL_CONNECTION_TIMEOUT, "10s")
-                        .withString(DefaultDriverOption.REQUEST_TIMEOUT, "30s")
-//                        .withString(DefaultDriverOption.REQUEST_CONSISTENCY, "ALL")
+                config.withString(DefaultDriverOption.METADATA_SCHEMA_REQUEST_TIMEOUT, schemaRequestTimeout)
+                        .withString(DefaultDriverOption.CONTROL_CONNECTION_TIMEOUT, controlConnectionTimeout)
+                        .withString(DefaultDriverOption.REQUEST_TIMEOUT, requestTimeout)
                         .build();
     }
 
