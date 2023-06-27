@@ -1,22 +1,15 @@
 package com.uci.dao.config;
 
-import com.datastax.driver.core.Cluster;
-import com.datastax.driver.core.QueryLogger;
-import com.datastax.oss.driver.api.core.CqlSessionBuilder;
 import com.datastax.oss.driver.api.core.config.DefaultDriverOption;
-import com.datastax.oss.driver.api.core.config.DriverConfigLoader;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.cassandra.config.AbstractReactiveCassandraConfiguration;
+import org.springframework.data.cassandra.config.DriverConfigLoaderBuilderConfigurer;
 import org.springframework.data.cassandra.config.SchemaAction;
-import org.springframework.data.cassandra.config.SessionBuilderConfigurer;
 import org.springframework.data.cassandra.core.cql.keyspace.CreateKeyspaceSpecification;
-import org.springframework.data.cassandra.core.cql.keyspace.DropKeyspaceSpecification;
 import org.springframework.data.cassandra.core.cql.keyspace.KeyspaceOption;
 import org.springframework.data.cassandra.repository.config.EnableReactiveCassandraRepositories;
 
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -39,6 +32,12 @@ public class CassandraConfig extends AbstractReactiveCassandraConfiguration {
 
     @Value("${cassandra.migration.count}")
     private int migrationCount;
+    @Value("${spring.data.cassandra.basic.request.timeout}")
+    private String requestTimeout;
+    @Value("${spring.data.cassandra.advanced.control-connection.timeout}")
+    private String controlConnectionTimeout;
+    @Value("${spring.data.cassandra.advanced.metadata.schema.request-timeout}")
+    private String schemaRequestTimeout;
 
     @Override
     protected String getKeyspaceName() {
@@ -84,13 +83,23 @@ public class CassandraConfig extends AbstractReactiveCassandraConfiguration {
 //            @Override
 //            public CqlSessionBuilder configure(CqlSessionBuilder cqlSessionBuilder) {
 //                return cqlSessionBuilder
-//                        .withConfigLoader(DriverConfigLoader.programmaticBuilder().withDuration(DefaultDriverOption.REQUEST_TIMEOUT, Duration.ofMillis(15000)).build());
+//                        .withConfigLoader(DriverConfigLoader.programmaticBuilder().withDuration(DefaultDriverOption.REQUEST_TIMEOUT, Duration.ofMillis(1200000)).build());
 //            }
 //        };
 //    }
 
+    @Override
+    protected DriverConfigLoaderBuilderConfigurer getDriverConfigLoaderBuilderConfigurer() {
+        return config ->
+                config.withString(DefaultDriverOption.METADATA_SCHEMA_REQUEST_TIMEOUT, schemaRequestTimeout)
+                        .withString(DefaultDriverOption.CONTROL_CONNECTION_TIMEOUT, controlConnectionTimeout)
+                        .withString(DefaultDriverOption.REQUEST_TIMEOUT, requestTimeout)
+                        .build();
+    }
+
     /**
      * Get list of scripts run on startup
+     *
      * @return
      */
     @Override
@@ -101,18 +110,18 @@ public class CassandraConfig extends AbstractReactiveCassandraConfiguration {
             if (migrationCount > 0) {
                 count = migrationCount;
             }
-            if(migrationCount > all.size()) {
+            if (migrationCount > all.size()) {
                 count = all.size();
             }
-            System.out.println("Count: "+count+", migrationCount: "+migrationCount);
-        } catch(NumberFormatException ex){
+            System.out.println("Count: " + count + ", migrationCount: " + migrationCount);
+        } catch (NumberFormatException ex) {
             System.out.println("NumberFormatException: " + ex.getMessage());
-        } catch(Exception ex){
+        } catch (Exception ex) {
             System.out.println("Exception: " + ex.getMessage());
         }
 
         List<String> scripts = new ArrayList<>();
-        for(int i=(count); i<all.size(); i++) {
+        for (int i = (count); i < all.size(); i++) {
             scripts.add(all.get(i));
         }
 
@@ -121,6 +130,7 @@ public class CassandraConfig extends AbstractReactiveCassandraConfiguration {
 
     /**
      * List of migration scripts
+     *
      * @return
      */
     protected List<String> getMigrationScripts() {
