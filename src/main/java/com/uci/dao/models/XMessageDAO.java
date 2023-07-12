@@ -39,7 +39,7 @@ public class XMessageDAO implements Serializable {
     private String channel;
     @Column
     private String provider;
-    
+
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @PrimaryKeyColumn(type = CLUSTERED, ordering = Ordering.DESCENDING)
@@ -73,4 +73,11 @@ public class XMessageDAO implements Serializable {
 
     @Column
     private List<String> tags;
+
+    @Column
+    private String respMsgId;
+
+    @Column
+    private String remarks;
+
 }

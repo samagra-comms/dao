@@ -66,6 +66,9 @@ public class XMessageDAOUtils {
         }
 
         xmsgDao.setApp(xmsg.getApp());
+        xmsgDao.setRespMsgId(xmsg.getRespMsgId());
+        xmsgDao.setRemarks(xmsg.getRemarks());
+
         return xmsgDao;
     }
 
