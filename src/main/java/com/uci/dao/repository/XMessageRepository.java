@@ -2,21 +2,16 @@ package com.uci.dao.repository;
 
 import com.uci.dao.models.XMessageDAO;
 
-import messagerosa.core.model.XMessage;
-
-import org.springframework.data.domain.Page;
+import org.springframework.data.cassandra.core.query.CassandraPageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.cassandra.repository.AllowFiltering;
-import org.springframework.data.cassandra.repository.Query;
 import org.springframework.data.cassandra.repository.ReactiveCassandraRepository;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -37,6 +32,9 @@ public interface XMessageRepository extends ReactiveCassandraRepository<XMessage
 
     @AllowFiltering
     Flux<XMessageDAO> findById(UUID uuid);
+
+    @AllowFiltering
+    Flux<Slice<XMessageDAO>> findAllByBotUuid(UUID botUuid, CassandraPageRequest pageRequest);
     
     @AllowFiltering
     Flux<XMessageDAO> findFirstByAppAndUserIdAndFromIdAndMessageStateOrderByTimestampDesc(String app, String userID, String fromId, String messageState);
