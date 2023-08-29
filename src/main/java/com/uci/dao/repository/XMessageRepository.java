@@ -34,7 +34,7 @@ public interface XMessageRepository extends ReactiveCassandraRepository<XMessage
     Flux<XMessageDAO> findById(UUID uuid);
 
     @AllowFiltering
-    Flux<Slice<XMessageDAO>> findAllByBotUuid(UUID botUuid, CassandraPageRequest pageRequest);
+    Flux<Slice<XMessageDAO>> findAllByBotUuidAndTimestampAfter(UUID botUuid, LocalDateTime timestamp, CassandraPageRequest pageRequest);
     
     @AllowFiltering
     Flux<XMessageDAO> findFirstByAppAndUserIdAndFromIdAndMessageStateOrderByTimestampDesc(String app, String userID, String fromId, String messageState);
