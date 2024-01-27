@@ -21,8 +21,8 @@
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<utils.version>2.4.0</utils.version>
-		<messagerosa.version>2.4.0</messagerosa.version>
+		<utils.version>2.4.1</utils.version>
+		<messagerosa.version>2.4.1</messagerosa.version>
 	</properties>
 	<!-- For Dao repository to upload to github packages -->
 	<profiles>
